@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="ATM-Machine.cs" />
-    <Compile Include="Card.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Logic\ATM-Machine.cs" />
+    <Compile Include="Models\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
