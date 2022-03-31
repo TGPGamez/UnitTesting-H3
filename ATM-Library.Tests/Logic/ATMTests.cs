@@ -11,18 +11,20 @@ namespace ATM_Library.Tests
     public class ATMTests
     {
         [Theory]
-        [InlineData("1325", "1325", true)]
-        [InlineData("1000", "1325", false)]
-        [InlineData("", "1325", false)]
-        [InlineData("1325", "", false)]
-        [InlineData("", " ", false)]
-        public void CheckPincodeShouldWork(string card_Pincode, string compare_Pincode, bool expected)
+        [InlineData("1325", true)]
+        [InlineData("15123", false)]
+        [InlineData("", false)]
+        [InlineData(" ", false)]
+        public void CheckPincodeShouldWork(string compare_Pincode, bool expected)
         {
             // Arrange 
             ATM_Machine atmMachine = new ATM_Machine();
+            Card card = new Card("12512 123", "1325", new Account(10));
 
             // Act
-            bool actual = atmMachine.CheckCardPincode(card_Pincode, compare_Pincode);
+            atmMachine.InsertCard(card);
+            bool actual = atmMachine.ValidatePincodeWithCard(compare_Pincode);
+            atmMachine.PullOutCard();
 
             // Assert
             Assert.Equal(expected, actual);
@@ -43,7 +45,9 @@ namespace ATM_Library.Tests
             // Act
             double balance_before_deposit = card.Linked_Account.Balance;
             
+            atmMachine.InsertCard(card);
             atmMachine.DepositToAccount(card, deposit_amount);
+            atmMachine.PullOutCard();
 
             double balance_after_deposit = card.Linked_Account.Balance;
             
@@ -64,7 +68,9 @@ namespace ATM_Library.Tests
             // Act
             double balance_before_withdraw = card.Linked_Account.Balance;
 
+            atmMachine.InsertCard(card);
             atmMachine.WithdrawFromAccount(card, withdraw_amount);
+            atmMachine.PullOutCard();
 
             double balance_after_withdraw = card.Linked_Account.Balance;
 
